@@ -24,7 +24,7 @@ AFountain::AFountain()
 	Water->SetRelativeLocation(FVector(0.0f, 0.0f, 135.0f));	//컴포넌트의 기본 위치값 설정
 	Light->SetRelativeLocation(FVector(0.0f, 0.0f, 195.0f));
 	Splash->SetRelativeLocation(FVector(0.0f, 0.0f, 195.0f));
-
+	Movement = CreateDefaultSubobject<URotatingMovementComponent>(TEXT("MOVEMENT"));
 
 	static ConstructorHelpers::FObjectFinder<UStaticMesh>
 		SM_BODY(TEXT("/Game/InfinityBladeGrassLands/Environments/Plains/Env_Plains_Ruins/StaticMesh/SM_Plains_Castle_Fountain_01.SM_Plains_Castle_Fountain_01"));
@@ -49,6 +49,9 @@ AFountain::AFountain()
 	if (PS_SPLASH.Succeeded()) {
 		Splash->SetTemplate(PS_SPLASH.Object);	//애셋에 매시 지정하기
 	}
+
+	RotateSpeed = 30.0f;
+	Movement->RotationRate = FRotator(0.0f, RotateSpeed, 0.0f);
 }
 
 // Called when the game starts or when spawned
@@ -56,12 +59,24 @@ void AFountain::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	//UE_LOG(ArenaBattle, Warning, TEXT("Actor Name : %s, ID : %d, Location X : %.3f"), *GetName(), ID, GetActorLocation().X);	//로깅을 위한 공용 매크로 테스트
+	ABLOG_S(Warning);
+	ABLOG(Warning, TEXT("Actor Name : %s, ID : %d, Location X: %.3f"), *GetName(), ID, GetActorLocation().X);
 }
 
 // Called every frame
 void AFountain::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	AddActorLocalRotation(FRotator(0.0f, RotateSpeed * DeltaTime, 0.0f));
 }
 
+void AFountain::EndPlay(const EEndPlayReason::Type EndPlayReason) {
+	Super::EndPlay(EndPlayReason);
+	ABLOG_S(Warning);
+}
+
+void AFountain::PostInitializeComponents() {
+	Super::PostInitializeComponents();
+	ABLOG_S(Warning);
+}
