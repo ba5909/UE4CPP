@@ -12,3 +12,10 @@ void AABPlayerController::OnPossess(APawn* aPawn) {
 	ABLOG_S(Warning);
 	Super::OnPossess(aPawn);//4.22부터 Possess가 OnPossess로 바뀐 것 같다.
 }
+
+void AABPlayerController::BeginPlay() {
+	Super::BeginPlay();
+
+	FInputModeGameOnly InputMode;
+	SetInputMode(InputMode);
+}

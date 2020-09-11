@@ -17,4 +17,7 @@ class ARENABATTLE_API AABPlayerController : public APlayerController
 public:
 	virtual void PostInitializeComponents() override;
 	virtual void OnPossess(APawn* aPawn) override;	//4.22부터 Possess가 OnPossess로 바뀐 것 같다.
+
+protected:
+	virtual void BeginPlay() override;
 };
